@@ -16,14 +16,14 @@ module pod(diameter=18.5, padding=4, number_inserts=5, height=25, base_offset=5)
     }
 }
 
-diameter = 18.5;
+diameter = 19.5;
 padding = 4.5;
 number_inserts = 5;
-deoderant_diameter = 47;
+deoderant_diameter = 48;
 
 offset = (diameter + padding) * number_inserts + padding;
 
-translate([offset, 0, 0]) pod(diameter=deoderant_diameter, padding=4, number_inserts=1);
+translate([offset, 0, 0]) pod(diameter=deoderant_diameter, padding=4.5, number_inserts=1);
 
 pod(diameter=diameter, padding=padding, number_inserts=number_inserts);
 translate([0, diameter + (padding * 2), 0]) {

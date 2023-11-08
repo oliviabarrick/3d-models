@@ -31,10 +31,14 @@ module hex_box(diameter=40, lid_height=10, thread_height=4, container_height=30,
 
     // container lid
     translate([diameter + wall_thickness*2,0,lid_height]) rotate([0, 180, 0]) {
-        ScrewHole(outer_diam=thread_diameter, height=lid_th, tooth_angle=70, pitch=3) {
+        difference() {
             cylinder(d=diameter, h=lid_height, $fn = 6);
+            ScrewThread(outer_diam=thread_diameter, height=lid_th, tooth_angle=70, pitch=3) {
+                cylinder(d=diameter, h=lid_height, $fn = 6);
+            }
         }
     }
 }
 
-hex_box(diameter=120, lid_height=20, thread_height=8, container_height=80, wall_thickness=2);
+// hex_box(diameter=120, lid_height=20, thread_height=8, container_height=80, wall_thickness=2);
+hex_box(diameter=100, lid_height=20, thread_height=8, container_height=50, wall_thickness=2);

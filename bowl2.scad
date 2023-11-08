@@ -1,8 +1,8 @@
 $fn = 100;
 eps = 0.01;
 
-thickness = 2;
-inner_joint_width = 14;
+thickness = 4;
+inner_joint_width = 29.2 + thickness;
 
 connector_width = inner_joint_width;
 
@@ -17,9 +17,10 @@ module ring(x=0, y=0, z=0, h=2, d, d1, d2, thickness=thickness) {
     }
 }
 
-d = 25 + thickness * 2;
+d = 25.3 + thickness;
 
-ring(h=6, d=d);
 
-translate([0, 0, -1]) ring(h=1, d1=connector_width, d2=d, thickness=thickness);
-translate([0, 0, -13]) ring(h=12, d=connector_width);
+ring(h=7, d=d);
+
+translate([0, 0, -4]) ring(h=4, d1=connector_width, d2=d, thickness=thickness);
+translate([0, 0, -14]) ring(h=10, d=connector_width);
