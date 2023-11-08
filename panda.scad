@@ -37,10 +37,10 @@ color("grey") {
 
 /*
 translate([0, 5, -4]) {
-    mirror([1, 0, 0]) linear_extrude(2) text("Ollie - 415-889-7202", size=5, halign="center", valign="center");
+    mirror([1, 0, 0]) linear_extrude(2) text("Ollie - 415-555-5555", size=5, halign="center", valign="center");
 }
 
 translate([0, -5, -4]) {
-    mirror([1, 0, 0]) linear_extrude(2) text("Skylar - 415-996-5200", size=5, halign="center", valign="center");
+    mirror([1, 0, 0]) linear_extrude(2) text("Skylar - 415-555-5555", size=5, halign="center", valign="center");
 }
 */
