@@ -64,15 +64,19 @@ module gear_housing(gear_diameter, gear_height, shaft_thickness, motor_gear_diam
     shaft_hole = shaft_thickness + 3;
 
     difference() {
-        cube([gear_diameter*2+2, gear_height + 2, gear_diameter+2], center=true);
+        cube([gear_diameter*2+2, gear_height + 2, gear_diameter+4], center=true);
         translate([gear_radius, 0, 0]) rotate([90, 90, 0]) cylinder(h=gear_height, d=gear_diameter+1, center=true);
         cube([gear_diameter+1, gear_height, gear_diameter+1], center=true);
         translate([-gear_radius, 0, 0]) rotate([90, 90, 0]) cylinder(h=gear_height, d=gear_diameter+1, center=true);
-        translate([0, -((gear_height + 2)/2), 0]) cube([gear_diameter+2, gear_height + 2, gear_radius+1]);
+        translate([0, -((gear_height + 2)/2), 0]) cube([gear_diameter+2, gear_height + 2, gear_radius+2]);
 
         translate([-gear_radius+1, 0, 0]) rotate([90, 90, 0]) cylinder(h=10, d=motor_gear_diameter + 1, center=true);
         translate([gear_radius-1, 0, 0]) rotate([90, 90, 0]) cylinder(h=10, d=shaft_hole, center=true);
-    }
+        translate([-5, 0, 13]) rotate([45, 0, 90]) cube([100, 13, 10], center=true);
+        translate([1, 0, 9.5]) cube([10, 100, 10], center=true);
+    }      
+
+
 
     difference() {
         translate([gear_radius+0.5, 0, 0]) cube([gear_diameter+1, thickness, shaft_hole+2], center=true);
@@ -81,19 +85,10 @@ module gear_housing(gear_diameter, gear_height, shaft_thickness, motor_gear_diam
         translate([gear_radius, 0, 0]) rotate([90, 90, 0]) cylinder(h=gear_height, d=gear_diameter+1, center=true);
     }
     
-    translate([gear_diameter+4, 0, -9]) {
-        difference() {
-            translate([0, 0, -1]) cube([gear_height + 2, gear_height + 2, 4], center=true);
-            cylinder(d=3.2, h=100, center=true);
-        }
-    }
+    translate([gear_diameter+4, 0, -9.5]) screw_hole(h=5, width=gear_height+2);
 
-    translate([-gear_diameter-4, 0, -9]) {
-        difference() {
-            translate([0, 0, -1]) cube([gear_height + 2, gear_height + 2, 4], center=true);
-            cylinder(d=3.2, h=100, center=true);
-        }
-    }
+    translate([-gear_diameter-8, 0, -9.5]) screw_hole(h=5, width=gear_height+2);
+    translate([-gear_diameter-3, 0, -10.5]) cube([4, gear_height+2, 5], center=true);
 }
 
 module tire(height, diameter) {
@@ -162,67 +157,107 @@ module motor_shape(x, y, z) {
     }
 }
 
+module screw_hole(h=10, width=6) {
+    difference() {
+        translate([0, 0, -1]) cube([width, width, h], center=true);
+        cylinder(d=3.2, h=100, center=true);
+    }
+}
+
 module motor_housing() {
     difference() {
-        cube([29, 29, 26], center=true);
+        cube([19, 36, 26], center=true);
 
-        motor_shape(15, 25, 20);
+        motor_shape(15.2, 32, 20.2);
 
         rotate([90, 90, 0]) cylinder(h=100, d=12, center=true);
 
-        //translate([-13, 0, -12]) m3_nut();
-        //translate([13, 0, -12]) m3_nut();
-        
-        translate([-11, 2, 0]) cylinder(d=3.2, h=100, center=true);
-        translate([11, 2, 0]) cylinder(d=3.2, h=100, center=true);
-        translate([0, -7, 0]) cube([100, 10, 20], center=true);    
+        translate([0, -7, 0]) rotate([0, 0, 90]) motor_shape(10, 32, 22);
+    }   
+
+    translate([0, 15, -4]) {
+        translate([-12.5, 0, 0]) screw_hole(16);
+        translate([12.5, 0, 0]) screw_hole(16);
+    }   
+
+    translate([0, -15, -4]) {
+        translate([-12.5, 0, 0]) screw_hole(16);
+        translate([12.5, 0, 0]) screw_hole(16);
     }
-    
-    
 }
 
 module motor_housing_top() {
     difference() {
         motor_housing();
-        translate([0, 0, -6.5]) cube([36, 30, 13], center=true);
+        translate([0, 0, -6.5]) cube([50, 50, 13], center=true);
     }
 }
 
 module motor_housing_bottom() {
     difference() {
         motor_housing();
-        translate([0, 0, 6.5]) cube([36, 30, 13], center=true);
+        translate([0, 0, 6.5]) cube([50, 50, 13], center=true);
+    }
+}
+
+module motor_housing_5v() {
+    difference() {
+        cube([22, 46, 26], center=true);
+
+        motor_shape(18.6, 40, 24.2);
+
+        rotate([90, 90, 0]) cylinder(h=100, d=12, center=true);
+
+        translate([0, -7, 0]) rotate([0, 0, 90]) motor_shape(10, 32, 22);
+    }   
+
+    translate([-7, 20, -9]) {
+        translate([-13, 0, 0]) screw_hole(6);
+        translate([-7, 0, -1]) cube([6, 6, 6], center=true);
+        translate([27, 0, 0]) screw_hole(6);
+        translate([21, 0, -1]) cube([6, 6, 6], center=true);
+    }   
+
+    translate([-7, -20, -9]) {
+        translate([-13, 0, 0]) screw_hole(6);
+        translate([-7, 0, -1]) cube([6, 6, 6], center=true);
+        translate([21, 0, -1]) cube([6, 6, 6], center=true);
+        translate([27, 0, 0]) screw_hole(6);
+    }
+}
+
+module motor_housing_5v_top() {
+    difference() {
+        motor_housing_5v();
+        translate([0, 0, -23]) cube([50, 50, 26], center=true);
+        translate([0, 0, -10]) cube([18.6, 40, 24.2], center=true);
+    }
+}
+
+module motor_housing_5v_bottom() {
+    difference() {
+        motor_housing_5v();
+        translate([0, 0, 3]) cube([50, 50, 26], center=true);
     }
 }
 
 module car_body() {
-    translate([30, 30, 3]) gear_housing(gear_diameter = gear_diameter, gear_height = gear_height, shaft_thickness = shaft_thickness, motor_gear_diameter = motor_gear_diameter);
+    union() {
+        cube([144, 74, 4], center=true);
 
-    translate([0, 0, 0]) difference() {
-        cube([120, 70, 20], center=true);
-        translate([0, 0, 2]) cube([116, 66, 20], center=true);
+        for(x = [1:8:140]) {
+            for(y = [1:8:70]) {
+                translate([69 - x, 33 - y, 1]) {
+                    m3_nut();
+                    cylinder(d=3.2, h=100, center=true);
+                }
 
-        translate([40, 0, 3]) rotate([90, 90, 0]) cylinder(h=100, d=7.2, center=true);
-
-        translate([20, -5, 0]) cube([22, 60, 26], center=true);
-
-        translate([20, 0, 3]) rotate([90, 90, 0]) cylinder(h=100, d=shaft_thickness + 3, center=true);
-
-        translate([-60, -5, 6]) rotate([90, 0, 90]) cylinder(d=3.2, h=6, center=true);
-        translate([-60, 5, 6]) rotate([90, 0, 90]) cylinder(d=3.2, h=6, center=true);
-    }
-
-    translate([20, -4, 3]) difference() {
-        cube([26, 62, 26], center=true);
-
-        intersection() {
-            translate([0, -1, 0]) cube([18.7, 62, 24.4], center=true);
-            translate([0, -1, 0]) rotate([90, 90, 0]) cylinder(h=62, d=24.4, center=true);
+                translate([69 - x, 33 - y, 1]) {
+                    m3_nut();
+                    cylinder(d=3.2, h=100, center=true);
+                }
+            }
         }
-
-        rotate([90, 90, 0]) cylinder(h=100, d=shaft_thickness + 3, center=true);
-        translate([0, -18, 0]) cube([30, 4, 4], center=true);    
-        translate([0, -24, 0]) cube([30, 4, 4], center=true);    
     }
 }
 
@@ -260,6 +295,29 @@ module servo_mount() {
     }
 }
 
+module servo_mount_attachment() {
+    difference() {
+        translate([0, 0, 10]) cube([6, 26, 30], center=true);
+        translate([0, -5, 20]) rotate([90, 0, 90]) cylinder(d=3.2, h=6, center=true);
+        translate([0, 5, 20]) rotate([90, 0, 90]) cylinder(d=3.2, h=6, center=true);
+    }
+    
+    translate([0, 16, -2.5]) screw_hole(h=3);
+    translate([0, -16, -2.5]) screw_hole(h=3);
+}
+
+module wheel_mount_attachment() {
+    difference() {
+        cube([5, 24, 26], center=true);
+        translate([0, -.5, 0]) rotate([90, 0, 90]) cylinder(d=12, h=7, center=true);
+    }
+    
+    translate([0, 15.5, -9.5]) screw_hole(h=5, width=5);
+    translate([0, 12.5, -10.5]) cube([5, 1, 5], center=true);
+    translate([0, -16.5, -9.5]) screw_hole(h=5, width=5);
+    translate([0, -13, -10.5]) cube([5, 2, 5], center=true);
+}
+
 wheel_diameter = 30;
 wheel_thickness = 4;
 
@@ -272,11 +330,22 @@ gear_height = 4;
 motor_gear_diameter = 6;
 
 //front_axel();
-//car_body();
-//motor_housing_bottom();
-//translate([0, 0, 5]) motor_housing_top();
 
-gear_housing(gear_diameter = gear_diameter, gear_height = gear_height, shaft_thickness = shaft_thickness, motor_gear_diameter = motor_gear_diameter);
+
+//translate([0, 0, -10]) color("green") car_body();
+
+
+
+//translate([35.5, 32, 10]) rotate([0, 0, 90]) wheel_mount_attachment();
+//translate([-68, 0, 0]) servo_mount_attachment();
+
+//translate([12.5, 4, 10]) motor_housing_bottom();
+//translate([12.5, 4, 10]) motor_housing_top();
+
+//translate([16, -4, 10]) motor_housing_5v_bottom();
+//translate([16, -4, 11]) motor_housing_5v_top();
+
+//translate([26, 24, 10]) gear_housing(gear_diameter = gear_diameter, gear_height = gear_height, shaft_thickness = shaft_thickness, motor_gear_diameter = motor_gear_diameter);
 
 
 //servo_mount_gear(height = 5.4, shaft_thickness = shaft_thickness);
@@ -284,8 +353,8 @@ gear_housing(gear_diameter = gear_diameter, gear_height = gear_height, shaft_thi
 
 //translate([0, 0, -10]) servo_mount_top();
 
-//motor_attached_gear(height = gear_height - .5);
-//motor_peg_attached_gear(height = gear_height);
+motor_attached_gear(height = gear_height - .5);
+//motor_peg_attached_gear(height = gear_height - .5);
 
 /*
 translate([25, 0, 0]) shaft_gear(height = gear_height, shaft_thickness = shaft_thickness);

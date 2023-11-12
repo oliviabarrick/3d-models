@@ -36,4 +36,4 @@ translate([60, 0, 0]) talon(17, 15);
 translate([0, 30, 0]) talon(15, 13);
 
 // thumb
-translate([30, 30, 0]) talon(21, 18);
+translate([30, 30, 0]) talon(24, 18);
